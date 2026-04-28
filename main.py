@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from sklearn.cluster import KMeans
+
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import IsolationForest
 
@@ -113,21 +115,9 @@ df['anomaly_label'] = df['anomaly'].apply(lambda x: "Anomaly" if x == -1 else "N
 print("\nConteo de anomalías:")
 print(df['anomaly_label'].value_counts())
 
-# =========================
-# 7. VISUALIZACIÓN DE ANOMALÍAS
-# =========================
-
-plt.figure()
-sns.scatterplot(
-    x=df['pkts'],
-    y=df['rate'],
-    hue=df['anomaly_label']
-)
-plt.title("Anomalías en tráfico de red")
-plt.show()
 
 # =========================
-# 8. INSIGHT CLAVE
+# 7. INSIGHT CLAVE
 # =========================
 
 anomalies = df[df['anomaly_label'] == "Anomaly"]
@@ -135,5 +125,66 @@ anomalies = df[df['anomaly_label'] == "Anomaly"]
 print("\n=== Posibles ataques DDoS detectados ===")
 print(anomalies[['saddr', 'daddr', 'pkts', 'rate', 'dur']].head())
 
-# Guardar resultados
-df.to_csv("resultado_analisis_ddos.csv", index=False)
+# =========================
+# 8. DETECCIÓN DE BOTNETS (AGRUPADO POR IP)
+# =========================
+
+print("\n=== Detección de Botnets por IP ===")
+
+# Agrupar por IP origen
+botnet_df = df.groupby('saddr').agg({
+    'pkts': ['sum', 'mean'],
+    'bytes': ['sum', 'mean'],
+    'dur': ['mean'],
+    'rate': ['mean', 'max'],
+    'daddr': 'nunique',
+    'dport': 'nunique',
+    'stime': 'count'
+}).reset_index()
+
+# Renombrar columnas
+botnet_df.columns = [
+    'saddr',
+    'total_pkts', 'avg_pkts',
+    'total_bytes', 'avg_bytes',
+    'avg_duration',
+    'avg_rate', 'max_rate',
+    'unique_dst_ips',
+    'unique_dst_ports',
+    'num_connections'
+]
+
+print(botnet_df.head())
+# =========================
+# 9. FEATURES BOTNET
+# =========================
+
+botnet_df['pkts_per_conn'] = botnet_df['total_pkts'] / (botnet_df['num_connections'] + 1e-5)
+botnet_df['bytes_per_conn'] = botnet_df['total_bytes'] / (botnet_df['num_connections'] + 1e-5)
+
+# Ratio de destinos (clave en DDoS)
+botnet_df['dst_ip_ratio'] = botnet_df['unique_dst_ips'] / (botnet_df['num_connections'] + 1e-5)
+# =========================
+# 10. K-MEANS (AGRUPACIÓN DE IPS)
+# =========================
+
+features_botnet = [
+    'total_pkts',
+    'total_bytes',
+    'avg_rate',
+    'max_rate',
+    'num_connections',
+    'unique_dst_ips',
+    'pkts_per_conn'
+]
+
+X_bot = botnet_df[features_botnet]
+
+scaler_bot = StandardScaler()
+X_bot_scaled = scaler_bot.fit_transform(X_bot)
+
+kmeans = KMeans(n_clusters=3, random_state=42)
+botnet_df['cluster_kmeans'] = kmeans.fit_predict(X_bot_scaled)
+
+print("\nClusters KMeans:")
+print(botnet_df['cluster_kmeans'].value_counts())
