@@ -1,9 +1,9 @@
 # tratamientodatosdataset
 
-## DESCRIPCIONN DEL PROYECTO
+## DESCRIPCION DEL PROYECTO
 Este proyecto tiene como objetivo realizar un análisis exploratorio de datos (EDA) y la visualización de información relevante a partir de un dataset, aplicando técnicas de tratamiento de datos con Python.
 
-## GRAFICOS DE DISTRIBUCION 
+## GRAFICO DE DISTRIBUCION 
 
 <img width="576" height="455" alt="output" src="https://github.com/user-attachments/assets/ee362b0d-dc02-4a9d-957e-8adcc4ada95b" />
 
