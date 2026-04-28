@@ -1,4 +1,20 @@
-# tratamientodatosdataset
+# Descripción del propósito del dataset
+El presente análisis se fundamenta en el dataset BoT-IoT, un repositorio especializado en tráfico de red generado en entornos de Internet de las Cosas (IoT). El archivo fuente, denominado DDoSdata.csv, tiene un peso aproximado de 588 MB, lo que permite un estudio volumétrico real de incidentes de ciberseguridad a gran escala.
+
+1.1. Estructura y Composición
+El conjunto de datos integra un total de 47 variables que documentan el comportamiento del tráfico de red. Estas se dividen en tres categorías principales:
+
+Datos de Identificación: Registran los puntos de origen y destino mediante direcciones IP (saddr, daddr) y puertos de comunicación (sport, dport).
+
+Métricas de Rendimiento: Documentan el volumen de la transmisión, incluyendo el conteo de paquetes (pkts), el tamaño de la carga útil en bytes (bytes) y la duración temporal de cada flujo (dur).
+
+Etiquetado Forense: El dataset incluye etiquetas de clasificación (attack, category, subcategory) que permiten diferenciar de manera inequívoca el tráfico legítimo de las actividades maliciosas.
+
+1.2. Escenario del Incidente
+Los registros analizados capturan un ataque de Denegación de Servicio Distribuido (DDoS). El tráfico malicioso está orientado principalmente a saturar servicios web (Puerto 80) utilizando vectores de ataque basados en protocolos TCP y UDP. La muestra es representativa de un entorno de infraestructura crítica donde múltiples dispositivos zombis (botnets) coordinan ráfagas de datos para comprometer la disponibilidad de un nodo central.
+
+1.3. Propósito del Análisis
+El objetivo de procesar este dataset es caracterizar los patrones matemáticos del ataque para facilitar el diseño de sistemas de detección de intrusiones (IDS). Dada la alta densidad de registros, el archivo permite evaluar la eficiencia de procesamiento de datos y la capacidad de respuesta de modelos predictivos ante inundaciones de tráfico anómalo.
 
 ## DESCRIPCION DEL PROYECTO
 Este proyecto tiene como objetivo realizar un análisis exploratorio de datos (EDA) y la visualización de información relevante a partir de un dataset, aplicando técnicas de tratamiento de datos con Python.
