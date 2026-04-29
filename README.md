@@ -18,6 +18,21 @@ El objetivo de procesar este dataset es caracterizar los patrones matemáticos d
 
 ## DESCRIPCION DEL PROYECTO
 Este proyecto tiene como objetivo realizar un análisis exploratorio de datos (EDA) y la visualización de información relevante a partir de un dataset, aplicando técnicas de tratamiento de datos con Python.
+## Resumen de las anomalías encontradas
+Resumen de anomalías detectadas
+Se identificaron 38,338 conexiones anómalas (~2% del total) mediante Isolation Forest, caracterizadas por patrones repetitivos y alta frecuencia.
+Se observó una concentración extrema de tráfico hacia la IP 192.168.100.3, lo que indica un posible objetivo de ataque.
+Las IPs de origen más activas fueron:
+192.168.100.147
+192.168.100.148
+192.168.100.149
+192.168.100.150
+Estas generaron cientos de miles de conexiones, comportamiento no típico de tráfico normal.
+El tráfico se concentró principalmente en el puerto 80 (HTTP), indicando un posible ataque tipo HTTP Flood (DDoS).
+Mediante clustering (K-Means y DBSCAN), se identificaron IPs con comportamiento anómalo, compatibles con actividad de botnet, debido a:
+alto número de conexiones
+alto volumen de paquetes
+baja diversidad de destinos
 
 ## GRAFICO DE DISTRIBUCION 
 
