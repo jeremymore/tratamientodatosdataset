@@ -71,7 +71,15 @@ La matriz identifica relaciones críticas para la detección de intrusiones. Se 
 
 La gráfica de cajas revela una diferencia drástica en el tamaño de los paquetes. Mientras que el tráfico normal (clase 0) presenta una alta variabilidad con múltiples valores atípicos (outliers) que alcanzan hasta los 70 millones de bytes (correspondientes a descargas o navegación legítima), el tráfico de ataque (clase 1) se mantiene comprimido cerca del cero. Esto confirma que la botnet no busca saturar la red con archivos pesados, sino con una inundación masiva de paquetes extremadamente pequeños. Esta estrategia es típica de los ataques DDoS para agotar la capacidad de procesamiento de los dispositivos de red sin necesidad de consumir grandes cantidades de ancho de banda por paquete.
 
+# Correciones 
+Pregunta para el trabajo final:
 
+¿Qué impacto tiene la proporción de contaminación  en un modelo de Isolation Forest, y cómo influye en la detección de anomalías cuando no se conoce previamente el porcentaje real de outliers en los datos?
+La proporción de contaminación en Isolation Forest define qué porcentaje de los datos el modelo va a considerar como anomalías. Esto impacta directamente en el resultado: si el valor es alto, el modelo detecta más anomalías (pero aumenta el riesgo de falsos positivos); si es bajo, detecta menos (y puede dejar pasar anomalías reales).
+
+Cuando no se conoce el porcentaje real de outliers, este parámetro se vuelve una suposición, por lo que influye mucho en la calidad de la detección. Un valor mal elegido puede hacer que el modelo sea poco confiable, ya sea exagerando o ignorando anomalías.
+
+Por eso, en estos casos se suele usar un valor estimado y luego ajustarlo revisando los resultados, buscando un equilibrio entre detectar correctamente las anomalías y evitar errores.
 
 
 
